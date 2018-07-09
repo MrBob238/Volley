@@ -1,21 +1,23 @@
-import java.util.Random;
-
 /**
  * Created by Vladimir on 24.03.2018.
  */
 public class Match {
     private VolleyTeam teamA;
     private VolleyTeam teamB;
-    private VolleyTeam winner = null;
-    private int pointsA = 0, pointsB = 0;
-    private double serveTeam; // 0.20 - TeamA, -0.20 - TeamB;
 
+    private VolleyTeam gameWinner = null;
+    private VolleyTeam setWinner = null;
+
+    private VolleyTeam matchWinner = null;
+
+    private int pointsA = 0, pointsB = 0;
+
+    private double serveTeam; // 0.20 - TeamA, -0.20 - TeamB;
     public Match(VolleyTeam teamA, VolleyTeam teamB) {
         this.teamA = teamA;
         this.teamB = teamB;
         this.serveTeam = randomK(0.70, 1.30) > 1 ? 0.20 : -0.20;
     }
-
     /*
     * Вычисляет победителя из двух переданных команд, используя randomK:
     * Сначала сумма навыков одной команды делится на сумму навыков другой = skillK. Из этого коэффициента вычитается
@@ -28,9 +30,9 @@ public class Match {
         teamB = teamB;
         double rndK = randomK(0.70,1.30);
         double skillK = teamA.totalSkill / teamB.totalSkill;
-        winner = ((skillK) - rndK - serveTeam >= 0) ? teamA : teamB;
-        serveTeam = winner.equals(teamA) ? 0.2 : -0.2;
-        return winner;
+        gameWinner = ((skillK) - rndK - serveTeam >= 0) ? teamA : teamB;
+        serveTeam = gameWinner.equals(teamA) ? 0.2 : -0.2;
+        return gameWinner;
     }
 
     /*
@@ -74,7 +76,6 @@ public class Match {
         int setsWinTeamB = 0;
         int numberOfSet = 1;
         StringBuilder resultOfMatch = new StringBuilder();
-        VolleyTeam winnerOfMatch;
         while ((setsWinTeamA < 3) && (setsWinTeamB < 3)) {
             pointsA = 0;
             pointsB = 0;
@@ -91,10 +92,10 @@ public class Match {
             resultOfMatch.append("(" + pointsA + ":" + pointsB + ") ");
             numberOfSet++;
         }
-        winnerOfMatch = (setsWinTeamA == 3) ? teamA : teamB;
+        matchWinner = (setsWinTeamA == 3) ? teamA : teamB;
         System.out.println(teamA.getName() + " - " + teamB.getName() + " " + setsWinTeamA + ":"
                 + setsWinTeamB + "  " + resultOfMatch.toString());
-        return winnerOfMatch;
+        return matchWinner;
     }
 
     /*
@@ -103,4 +104,13 @@ public class Match {
     public double randomK (double min, double max) {
         return (Math.random()* (max - min) + min);
     }
+
+    public VolleyTeam getGameWinner() {
+        return gameWinner;
+    }
+
+    public VolleyTeam getMatchWinner() {
+        return matchWinner;
+    }
+
 }

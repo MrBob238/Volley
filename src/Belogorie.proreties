@@ -1,7 +1,7 @@
 name = Belogorie
 attackSkill = 10
 defenseSkill = 10
-serveskill = 10
+serveSkill = 10
 receptionSkill = 10
 blockSkill = 10
 heightAverage = 205
